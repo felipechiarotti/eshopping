@@ -49,19 +49,20 @@ namespace Basket.API
                 app.UseSwagger();
                 app.UseSwaggerUI(o => o.SwaggerEndpoint("/swagger/v1/swagger.json", "Basket.API v1"));
 
-                app.UseHttpsRedirection();
-                app.UseRouting();
-                app.UseAuthorization();
-                app.UseEndpoints(endpoints =>
-                {
-                    endpoints.MapControllers();
-                    endpoints.MapHealthChecks("/health", new HealthCheckOptions
-                    {
-                        Predicate = _ => true,
-                        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-                    });
-                });
+
             }
+            app.UseHttpsRedirection();
+            app.UseRouting();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health", new HealthCheckOptions
+                {
+                    Predicate = _ => true,
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                });
+            });
         }
     }
 }

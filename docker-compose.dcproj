@@ -7,10 +7,11 @@
     <ProjectGuid>a11c982b-e0d2-4d15-b5dd-ad1308b32371</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
-    <DockerServiceName>catalog.api</DockerServiceName>
+    <DockerServiceName>discount.api</DockerServiceName>
     <DockerComposeProjectName>eshopping</DockerComposeProjectName>
   </PropertyGroup>
   <ItemGroup>
+    <None Include=".env" />
     <None Include="docker-compose.override.yml">
       <DependentUpon>docker-compose.yml</DependentUpon>
     </None>

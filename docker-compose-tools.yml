@@ -1,0 +1,46 @@
+version: '3.4'
+services:
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce
+    ports:
+      - "8080:8000"
+      - "9090:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+     - 5050:80
+    volumes:
+     - pgadmin_data:/root/.pgadmin
+
+  redisinsight:
+    container_name: redisinsight
+    image: redislabs/redisinsight:latest
+    ports:
+      - "8001:8001"
+    volumes:
+      - redisinsight_data:/db
+
+  mongoexpress:
+    container_name: mongoexpress
+    image: mongo-express
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=catalog-db
+      - ME_CONFIG_BASICAUTH_USERNAME=admin
+      - ME_CONFIG_BASICAUTH_PASSWORD=admin
+    ports:
+      - "8081:8081"
+
+
+volumes:
+  portainer_data:
+  pgadmin_data:
+  redisinsight_data:
