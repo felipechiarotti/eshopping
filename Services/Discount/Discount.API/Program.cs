@@ -1,17 +1,21 @@
-var builder = WebApplication.CreateBuilder(args);
+using Discount.API;
+using Discount.Infrastructure.Extensions;
 
-// Add services to the container.
+namespace Basket.API;
 
-builder.Services.AddControllers();
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        var host = CreateHostBuilder(args).Build();
+        Task.Run(host.MigrateDatabase<Program>);
+        host.Run();
+    }
 
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
+    private static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            });
+}
