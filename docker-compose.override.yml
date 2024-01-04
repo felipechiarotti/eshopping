@@ -1,0 +1,66 @@
+version: '3.4'
+
+services:
+#-------------Services------------------
+  catalog-api:
+    container_name: catalog-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${API_ENVIRONMENT}
+      - "DatabaseSettings__ConnectionString=mongodb://catalog-db:27017"
+      - "DatabaseSettings__DatabaseName=${CATALOG_DB}"
+      - "DatabaseSettings__CollectionName=Products"
+      - "DatabaseSettings__BrandsCollection=Brands"
+      - "DatabaseSettings__TypesCollection=Types"
+    depends_on:
+      - catalog-db
+    ports:
+      - "9000:80"
+
+  basket-api:
+    container_name: basket-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${API_ENVIRONMENT}
+      - "CacheSettings__ConnectionString=basket-cache:6379"
+      - "GrpcSettings__DiscountUrl=${GRPC_DISCOUNT_URL}"
+    ports:
+      - "9001:80"
+    depends_on:
+     - basket-cache
+
+  discount-api:
+    container_name: discount-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${API_ENVIRONMENT}
+      - "DatabaseSettings__ConnectionString=Server=discount-db;Port=5432;Database=${DISCOUNT_DB};User Id=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};"
+    ports:
+      - "9002:80"
+    depends_on:
+      - discount-db
+
+
+#-------------Infra------------------
+  catalog-db:
+    container_name: catalog-db
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+  
+  basket-cache:
+    container_name: basket-cache
+    restart: always
+    ports:
+     - "6379:6379"
+
+  discount-db:
+    container_name: discount-db
+    environment:
+     - POSTGRES_USER=${POSTGRES_USER}
+     - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+     - POSTGRES_DB=${DISCOUNT_DB}
+    restart: always
+    ports:
+     - "5432:5432"
+    volumes:
+     - postgres_data:/var/lib/postgresql/data/
