@@ -43,7 +43,7 @@ namespace Discount.Infrastructure.Extensions
             cmd.CommandText = @"CREATE TABLE Coupon(Id SERIAL PRIMARY KEY, ProductName VARCHAR(500) NOT NULL, Description TEXT, Amount INT)";
             await cmd.ExecuteNonQueryAsync();
 
-            cmd.CommandText = "INSERT INTO Coupon(ProductName, Description, Amount) VALUES('Adidas Quick Force Indoor Badminton Shoes', 'Shoe Discount', 500);";
+            cmd.CommandText = "INSERT INTO Coupon(ProductName, Description, Amount) VALUES('Adidas', 'Shoe Discount', 500);";
             cmd.ExecuteNonQuery();
 
             cmd.CommandText = "INSERT INTO Coupon(ProductName, Description, Amount) VALUES('Yonex VCORE Pro 100 A Tennis Racquet (270gm, Strung)', 'Racquet Discount', 700);";

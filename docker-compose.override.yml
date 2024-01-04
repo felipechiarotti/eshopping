@@ -21,6 +21,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=${API_ENVIRONMENT}
       - "CacheSettings__ConnectionString=basket-cache:6379"
+      - "GrpcSettings__DiscountUrl=${GRPC_DISCOUNT_URL}"
     ports:
       - "9001:80"
     depends_on:
